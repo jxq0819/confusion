@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import {Card, CardBody, CardImg, CardText, CardTitle} from 'reactstrap';
 
 class DishDetail extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   renderDish(dish) {
     if (dish != null) {
       return (
@@ -21,7 +17,7 @@ class DishDetail extends Component {
       );
     } else {
       return (
-          <div></div>
+          <div/>
       );
     }
   }
@@ -63,9 +59,13 @@ class DishDetail extends Component {
         {comments}
       </div>;
     } else {
-      selectedDishDetail = <div></div>;
+      selectedDishDetail = <div/>;
     }
-    return (selectedDishDetail);
+    return (
+        <div className="container">
+          {selectedDishDetail}
+        </div>
+    );
   }
 }
 
