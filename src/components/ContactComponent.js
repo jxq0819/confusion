@@ -131,6 +131,7 @@ class Contact extends Component {
                    href="tel:+85212345678">
                   <i className="fa fa-phone"/> Call
                 </a>
+                {/*eslint-disable-next-line*/}
                 <a role="button" className="btn btn-info">
                   <i className="fa fa-skype"/> Skype
                 </a>
