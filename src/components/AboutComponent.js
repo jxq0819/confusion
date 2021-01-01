@@ -8,6 +8,9 @@ import {
   Media,
 } from 'reactstrap';
 import {Link} from 'react-router-dom';
+import {Loading} from './LoadingComponent';
+import {baseUrl} from '../shared/baseUrl';
+import {Fade, Stagger} from 'react-animation-components';
 
 function RenderLeader({leader}) {
   return (
@@ -15,7 +18,7 @@ function RenderLeader({leader}) {
         <Media tag="li">
           <Media left>
             <Media
-                object src={leader.image}
+                object src={baseUrl + leader.image}
                 alt={leader.name}
             />
           </Media>
@@ -30,11 +33,32 @@ function RenderLeader({leader}) {
 }
 
 function About(props) {
-  const leaders = props.leaders.map((leader) => {
-    return (
-        <RenderLeader leader={leader}/>
+  let leaders;
+  if (props.leaders.isLoading) {
+    leaders = (
+        <div className="container">
+          <div className="row">
+            <Loading/>
+          </div>
+        </div>
     );
-  });
+  } else if (props.leaders.errMess) {
+    leaders = (
+        <div className="container">
+          <div className="row">
+            <h4>{props.leaders.errMess}</h4>
+          </div>
+        </div>
+    );
+  } else if (props.leaders.leaders != null) {
+    leaders = props.leaders.leaders.map((leader) => {
+      return (
+          <Fade in>
+            <RenderLeader leader={leader}/>
+          </Fade>
+      );
+    });
+  }
 
   return (
       <div className="container">
@@ -52,11 +76,14 @@ function About(props) {
           <div className="col-12 col-md-6">
             <h2>Our History</h2>
             <p>
-              Started in 2010, Ristorante con Fusion quickly established itself
-              as a culinary icon par excellence in Hong Kong. With its unique
+              Started in 2010, Ristorante con Fusion quickly established
+              itself as a culinary icon par excellence in Hong Kong. With its
+              unique
               brand of world fusion cuisine that can be found nowhere else, it
-              enjoys patronage from the A-list clientele in Hong Kong. Featuring
-              four of the best three-star Michelin chefs in the world, you never
+              enjoys patronage from the A-list clientele in Hong Kong.
+              Featuring
+              four of the best three-star Michelin chefs in the world, you
+              never
               know what will arrive on your plate the next time you visit
               us.
             </p>
@@ -113,7 +140,9 @@ function About(props) {
           </div>
           <div className="col-12">
             <Media list>
-              {leaders}
+              <Stagger in>
+                {leaders}
+              </Stagger>
             </Media>
           </div>
         </div>
